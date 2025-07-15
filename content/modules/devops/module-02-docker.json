@@ -1,0 +1,147 @@
+{
+  "id": "devops-docker",
+  "title": "Docker Fundamentals",
+  "description": "Learn containerization concepts and master Docker for application deployment",
+  "order": 2,
+  "estimatedMinutes": 60,
+  "lessons": [
+    {
+      "id": "devops-docker-1",
+      "title": "Introduction to Containers",
+      "type": "text",
+      "content": "# Introduction to Containers\n\nContainers have revolutionized how we develop, ship, and run applications. In this lesson, we'll explore what containers are and why they've become essential in modern software development.\n\n## What are Containers?\n\nContainers are lightweight, standalone, executable packages that include everything needed to run an application:\n\n- Code\n- Runtime\n- System tools\n- System libraries\n- Settings\n\nContainers isolate software from its surroundings, ensuring that it works uniformly despite differences in development and staging environments.\n\n## Containers vs. Virtual Machines\n\n| **Containers** | **Virtual Machines** |\n|----------------|----------------------|\n| Share the host OS kernel | Run a complete OS |\n| Start in seconds | Take minutes to start |\n| Require minimal disk space | Require more resources |\n| Application-level isolation | Hardware-level isolation |\n\n## Key Benefits of Containers\n\n1. **Consistency**: Eliminates \"works on my machine\" problems\n2. **Efficiency**: Uses fewer resources than VMs\n3. **Portability**: Runs the same anywhere\n4. **Scalability**: Easy to scale up or down\n5. **Isolation**: Applications don't interfere with each other\n\n## Container Ecosystem\n\nWhile Docker is the most popular containerization platform, the ecosystem includes:\n\n- **Container Runtimes**: Docker, containerd, CRI-O\n- **Container Orchestration**: Kubernetes, Docker Swarm, Amazon ECS\n- **Container Registries**: Docker Hub, Google Container Registry, Amazon ECR\n\nIn the next lesson, we'll dive into Docker specifically and start using it to create our first containers.",
+      "resources": [
+        {
+          "title": "Docker Documentation",
+          "url": "https://docs.docker.com/get-started/overview/",
+          "type": "documentation"
+        },
+        {
+          "title": "Containers vs VMs",
+          "url": "https://www.docker.com/resources/what-container/",
+          "type": "article"
+        }
+      ]
+    },
+    {
+      "id": "devops-docker-2",
+      "title": "Docker Architecture",
+      "type": "text",
+      "content": "# Docker Architecture\n\nUnderstanding Docker's architecture is essential for effectively using and troubleshooting containerized applications.\n\n## Docker Components\n\nDocker uses a client-server architecture consisting of these main components:\n\n1. **Docker Daemon (dockerd)**: The persistent process that manages Docker containers and handles container objects\n2. **Docker Client**: The primary way users interact with Docker through CLI commands\n3. **Docker Registry**: Stores Docker images (e.g., Docker Hub)\n4. **Docker Objects**: Images, containers, networks, volumes, plugins, etc.\n\n## Docker Images and Containers\n\n### Images\n- Read-only templates used to create containers\n- Often based on other images with additional customization\n- Defined in a Dockerfile with instructions for building the image\n- Stored in a registry like Docker Hub\n\n### Containers\n- Runnable instances of an image\n- Can be created, started, stopped, moved, or deleted\n- Can be connected to networks and have storage attached\n- Isolated from other containers and the host machine\n\n## Container Lifecycle\n\n```\nCreated → Running → Paused → Stopped → Deleted\n```\n\n## How Docker Works\n\n1. The client sends commands to the Docker daemon\n2. The daemon pulls required images from a registry\n3. The daemon creates and runs containers based on those images\n\n## Docker Networking\n\nDocker creates a private network where containers can communicate. There are several network drivers available:\n\n- **Bridge**: Default network for containers on a single host\n- **Host**: Uses the host's networking directly\n- **None**: Disables networking\n- **Overlay**: Connects multiple Docker daemons (used in Swarm)\n- **Macvlan**: Assigns MAC addresses to containers\n\n## Docker Storage\n\nDocker provides several options for storing data:\n\n1. **Volumes**: Preferred mechanism, managed by Docker\n2. **Bind Mounts**: Map host directories into containers\n3. **tmpfs Mounts**: Store data in memory\n\nIn the next lesson, we'll install Docker and run our first container.",
+      "resources": [
+        {
+          "title": "Docker Architecture",
+          "url": "https://docs.docker.com/get-started/overview/#docker-architecture",
+          "type": "documentation"
+        }
+      ]
+    },
+    {
+      "id": "devops-docker-3",
+      "title": "Working with Docker Containers",
+      "type": "code",
+      "content": "# Working with Docker Containers\n\nIn this lesson, we'll learn how to create, run, and manage Docker containers using the Docker CLI.\n\n## Running Your First Container\n\nLet's start with the classic \"Hello World\" in Docker:\n\n```bash\ndocker run hello-world\n```\n\nThis command:\n1. Checks if the hello-world image exists locally\n2. If not, downloads it from Docker Hub\n3. Creates a container from the image\n4. Runs the container, which displays a message\n5. Exits when the container's process completes\n\n## Basic Docker Commands\n\n### Listing Containers\n\nTo see all running containers:\n\n```bash\ndocker ps\n```\n\nTo see all containers (including stopped ones):\n\n```bash\ndocker ps -a\n```\n\n### Running Containers\n\nRun an interactive container with a bash shell:\n\n```bash\ndocker run -it ubuntu bash\n```\n\nThe flags mean:\n- `-i`: Interactive mode\n- `-t`: Allocate a pseudo-TTY\n\nRun a container in detached mode (background):\n\n```bash\ndocker run -d --name web nginx\n```\n\n### Managing Containers\n\nStop a running container:\n\n```bash\ndocker stop web\n```\n\nStart a stopped container:\n\n```bash\ndocker start web\n```\n\nRemove a container:\n\n```bash\ndocker rm web\n```\n\nForce remove a running container:\n\n```bash\ndocker rm -f web\n```\n\n### Container Logs and Information\n\nView container logs:\n\n```bash\ndocker logs web\n```\n\nFollow logs in real-time:\n\n```bash\ndocker logs -f web\n```\n\nInspect container details:\n\n```bash\ndocker inspect web\n```\n\n## Exposing Ports\n\nTo make a container's service accessible from the host:\n\n```bash\ndocker run -d -p 8080:80 --name web nginx\n```\n\nThis maps port 8080 on the host to port 80 in the container.\n\n## Using Volumes\n\nMount a host directory to persist data:\n\n```bash\ndocker run -d -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html nginx\n```\n\n## Try it yourself\n\nNow it's your turn! In the next interactive section, you'll practice these Docker commands in a hands-on environment.",
+      "codeExamples": [
+        {
+          "language": "bash",
+          "code": "# Run a web server\ndocker run -d -p 8080:80 --name webserver nginx\n\n# Check that it's running\ndocker ps\n\n# View the logs\ndocker logs webserver\n\n# Stop the container\ndocker stop webserver\n\n# Remove the container\ndocker rm webserver",
+          "title": "Basic Docker Container Management",
+          "description": "A sequence of commands to run, inspect, and manage a basic Nginx web server container"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Docker CLI Reference",
+          "url": "https://docs.docker.com/engine/reference/commandline/cli/",
+          "type": "documentation"
+        }
+      ]
+    },
+    {
+      "id": "devops-docker-4",
+      "title": "Building Custom Docker Images",
+      "type": "interactive",
+      "content": "# Building Custom Docker Images\n\nIn this interactive lesson, you'll learn how to create your own Docker images using Dockerfiles.\n\n## What is a Dockerfile?\n\nA Dockerfile is a text document containing instructions for how to build a Docker image. Each instruction creates a layer in the image, making the build process incremental and efficient.\n\n## Basic Dockerfile Structure\n\n```dockerfile\n# Use an existing image as a base\nFROM nginx:alpine\n\n# Set the working directory\nWORKDAD /usr/share/nginx/html\n\n# Copy files from host to container\nCOPY ./index.html .\n\n# Run commands during the build\nRUN echo \"Built at $(date)\" >> build-info.txt\n\n# Set environment variables\nENV API_URL=https://api.example.com\n\n# Document which ports the container listens on\nEXPOSE 80\n\n# Command to run when container starts\nCMD [\"nginx\", \"-g\", \"daemon off;\"]\n```\n\n## Common Dockerfile Instructions\n\n- **FROM**: Sets the base image\n- **WORKDIR**: Sets the working directory for subsequent instructions\n- **COPY/ADD**: Copies files from host to container\n- **RUN**: Executes commands during build\n- **ENV**: Sets environment variables\n- **EXPOSE**: Documents which ports the container listens on\n- **VOLUME**: Creates a mount point\n- **CMD**: Default command to run when container starts\n- **ENTRYPOINT**: Configures container to run as an executable\n\n## Building an Image\n\nTo build an image from a Dockerfile:\n\n```bash\ndocker build -t myapp:1.0 .\n```\n\nThe `-t` flag tags the image with a name and optionally a version.\n\n## Multi-stage Builds\n\nMulti-stage builds allow you to use multiple FROM statements in your Dockerfile. Each FROM instruction can use a different base, and begins a new stage of the build. You can selectively copy artifacts from one stage to another, leaving behind everything you don't need in the final image.\n\n```dockerfile\n# Build stage\nFROM node:14 AS build\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nRUN npm run build\n\n# Production stage\nFROM nginx:alpine\nCOPY --from=build /app/dist /usr/share/nginx/html\nEXPOSE 80\nCMD [\"nginx\", \"-g\", \"daemon off;\"]\n```\n\nThis technique is particularly useful for creating smaller production images.\n\n## Image Optimization Best Practices\n\n1. **Use specific base images**: Prefer `node:18-alpine` over just `node`\n2. **Minimize layers**: Combine RUN commands with `&&`\n3. **Clean up in the same layer**: Remove temporary files in the same RUN instruction\n4. **Use .dockerignore**: Exclude unnecessary files from the build context\n5. **Order instructions by stability**: Place instructions that change less frequently at the top\n\n## Now it's your turn!\n\nIn the interactive exercise below, create a Dockerfile for a simple web application.",
+      "resources": [
+        {
+          "title": "Dockerfile Best Practices",
+          "url": "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+          "type": "documentation"
+        },
+        {
+          "title": "Multi-stage Builds",
+          "url": "https://docs.docker.com/build/building/multi-stage/",
+          "type": "documentation"
+        }
+      ]
+    },
+    {
+      "id": "devops-docker-5",
+      "title": "Docker Compose for Multi-Container Applications",
+      "type": "code",
+      "content": "# Docker Compose for Multi-Container Applications\n\nReal-world applications often consist of multiple services working together. Docker Compose is a tool for defining and running multi-container Docker applications.\n\n## What is Docker Compose?\n\nDocker Compose is a tool that allows you to define and manage multi-container Docker applications. With Compose, you use a YAML file to configure your application's services, networks, and volumes. Then, with a single command, you create and start all the services from your configuration.\n\n## docker-compose.yml\n\nThe docker-compose.yml file is where you define your application's services, networks, and volumes:\n\n```yaml\nversion: '3'\n\nservices:\n  web:\n    build: ./web\n    ports:\n      - \"8000:8000\"\n    depends_on:\n      - db\n    environment:\n      - DATABASE_URL=postgres://postgres:password@db:5432/myapp\n\n  db:\n    image: postgres:13\n    volumes:\n      - postgres_data:/var/lib/postgresql/data\n    environment:\n      - POSTGRES_USER=postgres\n      - POSTGRES_PASSWORD=password\n      - POSTGRES_DB=myapp\n\nvolumes:\n  postgres_data:\n```\n\n## Key Concepts\n\n### Services\nServices are the containers that make up your application. Each service can be built from a Dockerfile or based on an existing image.\n\n### Networks\nBy default, Compose sets up a single network for your application. Services can communicate using their service names as hostnames.\n\n### Volumes\nVolumes are persistent data stores that can be used by containers. They survive container restarts and are useful for databases and other stateful applications.\n\n## Basic Commands\n\nStart all services:\n```bash\ndocker-compose up\n```\n\nStart in detached mode (background):\n```bash\ndocker-compose up -d\n```\n\nStop all services:\n```bash\ndocker-compose down\n```\n\nStop and remove volumes:\n```bash\ndocker-compose down -v\n```\n\nView logs:\n```bash\ndocker-compose logs\n```\n\nExecute command in a service:\n```bash\ndocker-compose exec web bash\n```\n\n## Common Patterns\n\n### Development Environment\n\n```yaml\nversion: '3'\n\nservices:\n  web:\n    build: .\n    ports:\n      - \"3000:3000\"\n    volumes:\n      - .:/app  # Mount the current directory for development\n      - /app/node_modules  # Exclude node_modules from the mount\n    environment:\n      - NODE_ENV=development\n    command: npm run dev\n```\n\n### Production Environment with Scaling\n\n```yaml\nversion: '3'\n\nservices:\n  web:\n    image: myapp:latest\n    deploy:\n      replicas: 3\n    ports:\n      - \"80:80\"\n    environment:\n      - NODE_ENV=production\n  \n  redis:\n    image: redis:alpine\n    deploy:\n      replicas: 1\n```\n\n## Next Steps\n\nIn the next lesson, we'll explore container orchestration with Docker Swarm and Kubernetes for managing containerized applications at scale.",
+      "codeExamples": [
+        {
+          "language": "yaml",
+          "code": "version: '3'\n\nservices:\n  frontend:\n    build: ./frontend\n    ports:\n      - \"3000:80\"\n    depends_on:\n      - backend\n  \n  backend:\n    build: ./backend\n    ports:\n      - \"8000:8000\"\n    environment:\n      - DATABASE_URL=mongodb://db:27017/myapp\n    depends_on:\n      - db\n  \n  db:\n    image: mongo:4.4\n    volumes:\n      - mongo_data:/data/db\n\nvolumes:\n  mongo_data:",
+          "title": "Full Stack Application Compose File",
+          "description": "A docker-compose.yml file for a typical full-stack application with frontend, backend, and database services"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Docker Compose Documentation",
+          "url": "https://docs.docker.com/compose/",
+          "type": "documentation"
+        },
+        {
+          "title": "Compose File Reference",
+          "url": "https://docs.docker.com/compose/compose-file/",
+          "type": "documentation"
+        }
+      ]
+    }
+  ],
+  "quiz": {
+    "id": "devops-docker-quiz",
+    "questions": [
+      {
+        "id": "docker-q1",
+        "question": "What is the difference between a Docker image and a Docker container?",
+        "options": [
+          "They are the same thing with different names",
+          "An image is a template, and a container is a running instance of an image",
+          "An image is for production, and a container is for development",
+          "A container can hold multiple images"
+        ],
+        "correctAnswer": 1,
+        "explanation": "A Docker image is a read-only template that contains a set of instructions for creating a Docker container. A container is a runnable instance of an image."
+      },
+      {
+        "id": "docker-q2",
+        "question": "Which command would you use to list all running Docker containers?",
+        "options": [
+          "docker container ls",
+          "docker ps",
+          "docker list",
+          "docker show containers"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The command 'docker ps' lists all currently running containers. You can use 'docker ps -a' to show all containers, including those that are stopped."
+      },
+      {
+        "id": "docker-q3",
+        "question": "What is the purpose of the EXPOSE instruction in a Dockerfile?",
+        "options": [
+          "It automatically forwards ports from the host to the container",
+          "It opens ports in the container's firewall",
+          "It documents which ports the container listens on",
+          "It is required for containers to communicate with each other"
+        ],
+        "correctAnswer": 2,
+        "explanation": "The EXPOSE instruction in a Dockerfile documents which ports the container listens on at runtime. It does not actually publish the ports - you still need to use the -p flag with 'docker run' to map the ports to the host."
+      }
+    ],
+    "passingScore": 2
+  }
+}
